@@ -48,14 +48,27 @@ void setup () {
 
   
   for(int i=0; i < sizeof(relayArray); i++){
-    pinMode(i, OUTPUT);
+//    pinMode(i, OUTPUT);
+//    digitalWrite(i, 0);
   }
+//  for(int i=0; i < sizeof(relayArray); i++){
+//    digitalWrite(i, 1);
+//    delay(300);
+//    digitalWrite(i, 0);
+//    
+//  }
+  
 }
 
 void loop () {
+  
+  Serial.println("Main Loop!");
 
   //Set all relays to zero
-  memset(relayArray, 0, sizeof relayArray);
+  //memset(relayArray, 0, sizeof relayArray);
+  for(int i=0; i < sizeof(relayArray); i++){
+    relayArray[i] = 0;
+  }
 
   DateTime now = rtc.now();
   Serial.print(now.year(), DEC);
@@ -73,14 +86,18 @@ void loop () {
   Serial.println(now.second(), DEC);
   
   
+  Serial.println("opened 0");
   myFile = SD.open("schedule.txt");
+  
+  Serial.println("opened 1");
 
         
   if (myFile) {
     
+  Serial.println("attempting to read");
+    
     // read from the file until there's nothing else in it:
     while (myFile.available()) {
-
 
       //Read one line
       buffer = myFile.readStringUntil('\n');  
